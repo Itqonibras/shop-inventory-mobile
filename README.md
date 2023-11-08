@@ -12,7 +12,7 @@ ketika nilai true atau false.
 ## Widget yang Saya Gunakan
 
 - MaterialApp: Widget ini digunakan sebagai bungkus untuk beberapa widget yang menggunakan tema
-material design.
+  material design.
 - Scaffold: Widget ini digunakan untuk membuat struktur dasar material design.
 - AppBar: Widget ini digunakan untuk membuat AppBar.
 - Padding: Widget ini digunakan untuk menambahkan padding pada widget lainnya.
@@ -41,5 +41,5 @@ saya set menjadi HomeScreen. HomeScreen adalah stateless widget yang mereturn Sc
 Scaffold, saya menambahkan appBar dengan nama aplikasi dan juga saya membuat tiga tombol, yaitu Add
 Item, List Item, dan Logout. Tombol Logout menggunakan widget yang bernama ElevatedButton, sedangkan
 dua tombol lainnya menggunakan widget CustomCard. CustomCard merupakan custom widget yang saya buat
-yang terdiri dari berbagai widget seperti InkWell, Card, ListTile, dan masih banyak lagi. Terakhir
-saya melakukan git add commit push.
+yang terdiri dari berbagai widget seperti InkWell, Card, ListTile, dan masih banyak lagi. Ketiga
+tombol tadi ketika ditekan akan menampilkan snackbar. Terakhir saya melakukan git add commit push.
