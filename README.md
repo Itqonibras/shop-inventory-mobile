@@ -1,3 +1,60 @@
+# Tugas 8
+
+## Perbedaan antara Navigator.push() dan Navigator.pushReplacement() di Flutter:
+
+- `Navigator.push()`: Metode ini digunakan untuk menambahkan rute lain ke atas tumpukan layar (
+  stack) saat ini sehingga halaman baru ditampilkan di atas halaman sebelumnya. Misalnya, jika Anda
+  berada di halaman A dan menerapkan `Navigator.push()` ke halaman B, maka Anda akan berpindah ke
+  halaman B tetapi jika Anda menekan tombol kembali, Anda akan kembali ke halaman A.
+- `Navigator.pushReplacement()`: Metode ini menghapus rute saat ini dengan menggantinya ke rute yang
+  baru sehingga kita tidak dapat kembali ke halaman sebelumnya. Jadi, jika Anda berada di halaman A
+  dan menerapkan `Navigator.pushReplacement()` ke halaman B, maka Anda akan berpindah ke halaman B
+  tetapi jika Anda menekan tombol kembali, Anda tidak akan kembali ke halaman A, melainkan keluar
+  dari aplikasi (jika tidak ada halaman lain dalam stack).
+
+## Layout widget pada Flutter:
+
+- `Container`: Widget ini digunakan untuk mengatur tata letak dan dekorasi widget lain.
+- `Row` dan `Column`: Digunakan untuk mengatur widget secara horizontal (Row) atau vertikal (Column)
+  . Misalnya, `Row` dapat digunakan untuk menampilkan serangkaian ikon dalam satu baris,
+  sementara `Column` dapat digunakan untuk menampilkan teks dan gambar dalam satu kolom.
+- `Center`: Widget layout untuk membuat widget ke tengah.
+- `Expanded`: Widget yang memperluas child dari Row, Column, atau Flex.
+- `Padding`: Widget yang memberikan padding pada childnya.
+- `Stack`: Widget ini berguna jika Anda ingin menumpuk beberapa child dalam cara yang sederhana,
+  misalnya untuk menumpuk text diatas container.
+
+## Elemen input pada form di Flutter:
+
+Elemen input yang digunakan untuk tugas ini adalah `TextFormField`. Elemen tersebut dipilih karena
+memiliki sebuah parameter yang bernama validator. Parameter validator digunakan untuk memvalidasi
+input text sesuai yang diminta aplikasi dan dapat menampilkan pesan error jika tidak sesuai.
+
+## Penerapan clean architecture pada aplikasi Flutter:
+
+Clean Architecture pada Flutter adalah arsitektur yang memisahkan kode program antara business
+logic, presenter/UI, state management, eksternal datasources, dan repository. Tujuannya adalah
+membuat kode menjadi lebih mudah diuji (testable) dan dapat dipelihara (maintainable). Misalnya,
+sebuah proyek mungkin memiliki folder terpisah untuk model, layanan, dan tampilan, dan setiap bagian
+kode Anda hanya berkomunikasi dengan bagian lain melalui interfaces, bukan langsung ke
+implementasinya. Ini memungkinkan kita untuk, misalnya, mengubah database yang kita gunakan tanpa
+harus mengubah kode di bagian lain dari aplikasi kita.
+
+## Langkah2 Pembuatan
+
+Hal yang pertama kali saya lakukan adalah membuat sebuah halaman baru yang bernama `add_item.dart`.
+Pada file tersebut saya membuat sebuah stateless widget yang me-return Scaffold dan memiliki child
+widget `Form`. Widget form memiliki child sebuah Column yang dimana memiliki children kumpulan
+TextFormField dan ElevatedButton sebagai tombol submitnya. Saya menambahkan validator pada
+TextFormField agar data yang diterima aplikasi sesuai dengan yang dibutuhkan. Ketika ElevatedButton
+ditekan, maka aplikasi akan menyimpan data dari TextFormField tadi ke dalam list yang berada di
+Provider. Selain halaman menambah item, saya juga membuat file `item_list.dart` yang digunakan untuk
+menampilkan item2 yang terdapat di dalam Provider. Selanjutnya saya membuat sebuah drawer yang
+memiliki beberapa tombol untuk mengakses halaman tambah item dan list item tadi. Saya juga mengubah
+beberapa tampilan aplikasi dan juga saya menggunakan package `page_transition` untuk menambahkan
+animasi transisi ketika berpindah halaman. Terakhir, saya me-refactor kode saya seperti memisahkan
+class model, class provider, dan custom widget yang saya buat. Yaudah terus tinggal add commit push git.
+
 # Tugas 7
 
 ## Perbedaan Stateless dan Stateful Widget Flutter

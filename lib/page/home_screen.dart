@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import '../widget/custom_card.dart';
+import 'package:shop_inventory_mobile/page/add_item.dart';
+import 'package:shop_inventory_mobile/page/item_list.dart';
+import 'package:shop_inventory_mobile/widget/drawer.dart';
+import '../widget/bottom_sheet.dart';
+import '../widget/button_card.dart';
+import '../widget/summary_card.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = '/';
@@ -12,56 +17,92 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Shop Inventory'),
         centerTitle: true,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.white,
+        elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const CustomCard(
-              title: 'Item List',
-              subtitle: 'See all item in inventory',
-              icon: Icon(Icons.menu_rounded),
-            ),
-            const CustomCard(
-              title: 'Add Item',
-              subtitle: 'Add item to inventory',
-              icon: Icon(Icons.add_circle_outline_rounded),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+      extendBodyBehindAppBar: true,
+      drawer: const LeftDrawer(),
+      body: Column(
+        children: [
+          Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Container(
+                color: Colors.blueAccent,
+                height: MediaQuery.of(context).size.height * (1 / 3),
+                width: double.maxFinite,
+              ),
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
                 ),
-                onPressed: () {
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(const SnackBar(
-                        content: Text("Kamu telah menekan tombol Logout!")));
-                },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Logout',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: Icon(
-                        Icons.logout_rounded,
-                        color: Colors.white,
-                      ),
-                    )
-                  ],
+                child: Container(
+                  color: const Color(0xFFF4F4F4),
+                  height: 50,
                 ),
               ),
-            )
-          ],
-        ),
+              const Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: SizedBox(
+                      width: double.maxFinite,
+                      child: Text(
+                        'Hello!',
+                        style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 12, right: 12),
+                    child: SummaryCard(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          GridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(12),
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            crossAxisCount: 3,
+            shrinkWrap: true,
+            children: [
+              ButtonCard(
+                icon: Icons.add,
+                name: 'Add Item',
+                onTap: () {
+                  Navigator.pushNamed(context, AddItemScreen.routeName);
+                },
+              ),
+              ButtonCard(
+                icon: Icons.list,
+                name: 'Item List',
+                onTap: () {
+                  Navigator.pushNamed(context, ItemList.routeName);
+                },
+              ),
+              ButtonCard(
+                icon: Icons.more_horiz_rounded,
+                name: 'More',
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return const HomeBottomSheet();
+                      });
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
