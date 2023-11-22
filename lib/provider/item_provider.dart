@@ -1,42 +1,32 @@
 import 'package:flutter/foundation.dart';
-import 'package:shop_inventory_mobile/data/item_model.dart';
+import 'package:shop_inventory_mobile/data/api_service.dart';
+
+enum ResultState { loading, noData, hasData }
 
 class ItemProvider extends ChangeNotifier {
-  final List<Item> _itemsList = [];
+  final ApiService apiService;
 
-  List<Item> get itemList => _itemsList;
-
-  void addItem(Item item) {
-    itemList.add(item);
-    notifyListeners();
+  ItemProvider({required this.apiService}) {
+    fetchItem();
   }
 
-  void deleteItem(int index) {
-    itemList.removeAt(index);
-    notifyListeners();
-  }
+  late ResultState _state;
+  ResultState get state => _state;
 
-  itemCount() {
-    return itemList.length;
-  }
+  late dynamic _itemResult;
 
-  totalItem() {
-    if (itemList.isEmpty) {
-      return 0;
+  dynamic get result => _itemResult;
+
+  Future<void> fetchItem() async {
+    _state = ResultState.loading;
+    List listItem = await apiService.getItem();
+    if (listItem.isEmpty) {
+      _state = ResultState.noData;
+      notifyListeners();
     } else {
-      int count = 0;
-      for (int i = 0; i < itemList.length; i++) {
-        count += itemList[i].amount;
-      }
-      return count;
-    }
-  }
-
-  lastItem() {
-    if (itemList.isNotEmpty) {
-      return itemList.last;
-    } else {
-      return null;
+      _state = ResultState.hasData;
+      _itemResult = listItem;
+      notifyListeners();
     }
   }
 }

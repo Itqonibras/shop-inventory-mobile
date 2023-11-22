@@ -49,52 +49,61 @@ class ItemList extends StatelessWidget {
             height: 100,
             width: double.maxFinite,
           ),
-          Consumer<ItemProvider>(
-            builder: (context, data, _) {
-              return Expanded(
-                child: Stack(
-                  children: [
-                    Container(
-                      height: 50,
-                      width: double.maxFinite,
-                      color: Colors.blueAccent,
-                    ),
-                    ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(16),
-                        topRight: Radius.circular(16),
-                      ),
-                      child: Container(
-                        color: const Color(0xFFF4F4F4),
-                        height: 50,
-                      ),
-                    ),
-                    data.itemCount() == 0
-                        ? const Center(child: Text('Empty'))
-                        : ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            padding: const EdgeInsets.only(top: 12),
-                            shrinkWrap: true,
-                            itemCount: data.itemCount(),
-                            itemBuilder: (context, index) {
-                              var item = data.itemList[index];
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(12, 6, 12, 6),
-                                child: ItemCard(
-                                  data: data,
-                                  name: item.name,
-                                  description: item.description,
-                                  amount: item.amount.toString(),
-                                  index: index,
-                                ),
-                              );
-                            },
-                          ),
-                  ],
+          Expanded(
+            child: Stack(
+              children: [
+                Container(
+                  height: 50,
+                  width: double.maxFinite,
+                  color: Colors.blueAccent,
                 ),
-              );
-            },
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  child: Container(
+                    color: const Color(0xFFF4F4F4),
+                    height: 50,
+                  ),
+                ),
+                Consumer<ItemProvider>(
+                  builder: (context, state, _) {
+                    if (state.state == ResultState.loading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state.state == ResultState.noData) {
+                      return const Center(child: Text('Empty'));
+                    } else {
+                      return Column(
+                        children: [
+                          const SizedBox(height: 12),
+                          Expanded(
+                            child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              padding: const EdgeInsets.only(top: 0),
+                              shrinkWrap: true,
+                              itemCount: state.result.length,
+                              itemBuilder: (context, index) {
+                                var item = state.result[index];
+                                return Padding(
+                                  padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                                  child: ItemCard(
+                                    name: item.fields.name,
+                                    description: item.fields.description,
+                                    amount: item.fields.amount.toString(),
+                                    index: index,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                )
+              ],
+            ),
           ),
         ],
       ),
